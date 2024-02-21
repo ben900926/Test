@@ -1,7 +1,9 @@
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 // single linked list node
+// or "list_entry_t" in the slide
 typedef struct __Node{
     int value;
     struct __Node* next;
@@ -23,6 +25,21 @@ void remove_list_node(List* list, Node* target){
         indirect = &(*indirect)->next;
 
     *indirect = target->next;
+}
+
+void append(int value, Node **head){
+    Node **indirect = head;
+
+    // add new node
+    Node *newNode = malloc(sizeof(Node));
+    newNode->value = value, newNode->next = NULL;
+
+    // traverse
+    while(*indirect)
+        indirect = &(*indirect)->next;
+
+    // insert
+    *indirect = newNode;
 }
 
 void traversal_ll(List* list){
@@ -47,14 +64,14 @@ int main(void){
     Node *cc = &c;
 
     List ll;
-    ll.head = aa;
-    aa->next = bb;
-    bb->next = cc;
-    cc->next = NULL;
+    ll.head = NULL;
+    // aa->next = bb;
+    // bb->next = cc;
+    // cc->next = NULL;
 
     List *ll_p = &ll;
 
-    remove_list_node(ll_p, bb);
+    append(4, &ll_p->head);
     traversal_ll(ll_p);
 
     return 0;
